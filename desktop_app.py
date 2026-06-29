@@ -178,7 +178,7 @@ class YogaPoseCoachApp:
         tk.Label(
             control,
             text=(
-                "Tip: macOS may ask for camera permission "
+                "Tip: your system may ask for camera permission "
                 "the first time the app starts."
             ),
             bg="#202020",

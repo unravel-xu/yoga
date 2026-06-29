@@ -224,9 +224,19 @@ class PoseDetector:
                 f"{DEFAULT_MODEL_PATH.parent}"
             )
 
+        try:
+            self._model_buffer = self.model_path.read_bytes()
+        except OSError as exc:
+            raise RuntimeError(
+                "Pose Landmarker model could not be read:\n"
+                f"{self.model_path}"
+            ) from exc
+
         options = vision.PoseLandmarkerOptions(
             base_options=python.BaseOptions(
-                model_asset_path=str(self.model_path),
+                # Passing bytes avoids native-library failures on Windows
+                # when the packaged app lives under a non-ASCII path.
+                model_asset_buffer=self._model_buffer,
             ),
             running_mode=vision.RunningMode.VIDEO,
             num_poses=num_poses,
@@ -314,6 +324,7 @@ class PoseDetector:
         if not self._closed:
             self._landmarker.close()
             self._closed = True
+            self._model_buffer = b""
 
     def __enter__(self):
         return self
@@ -412,8 +423,8 @@ def open_webcam(
         cap.release()
 
         raise RuntimeError(
-            "Cannot open webcam. Check camera permissions in "
-            "System Settings → Privacy & Security → Camera."
+            "Cannot open webcam. Check camera permissions and make sure "
+            "another application is not using the camera."
         )
 
     return cap
