@@ -1,58 +1,75 @@
 # Yoga Pose Estimation & Correction Engine
 
-A real-time yoga pose correction system built with **MediaPipe** and **OpenCV** for the internship technical assignment. Detects and corrects **Urdhva Hastasana (Raised Hands Pose)** using rule-based logic on 33 body landmarks — no model training required.
+A real-time yoga pose correction system built with **MediaPipe** and **OpenCV**. It shows a reference yoga video in a small picture-in-picture window, lets the user mirror the movement through the webcam, and corrects non-standard motion by comparing live skeleton features against the current reference frame.
 
 ---
 
 ## Demo
 
 ```
-Stand erect → feet 6 inches apart → raise arms above head → join palms
-→ hold for 4 breaths → lower arms to thighs → rest for 2 breaths → repeat 3x
+Reference yoga video plays in a small window
+→ user mirrors the motion in the webcam
+→ live skeleton is compared with the reference skeleton
+→ the app shows a match score and the most important correction
 ```
 
-The system gives real-time feedback on each condition, tracks breath hold timers, and counts reps automatically.
+The system gives real-time feedback on body alignment, arm/hand position, elbow shape, torso tilt, and visibility.
 
 ---
 
 ## Features
 
 - **Live webcam pose detection** at 25–30 FPS on CPU (no GPU required)
-- **6 rule-based pose checks** running simultaneously
-- **Camera-distance independent** — all checks normalized by shoulder width
+- **Reference video picture-in-picture** for imitation and pacing
+- **Frame-by-frame pose matching** against the reference skeleton
+- **6 live match checks** shown in the status panel
+- **Camera-distance independent** — checks use normalized body features
 - **Body-size independent** — works for any person regardless of height
-- **Breath timer** with visual progress bar
-- **Rep counter** tracking 3 complete reps
+- **Match score** with a visual progress bar
 - **Joint angle display** overlaid on skeleton
 - **Landmark coordinates** printed to screen and terminal
 - **Modular codebase** — clean separation of detection, correction, and UI
 
 ---
 
-## Pose Checks
+## Reference Match Checks
 
-| # | Check | Method | Threshold |
-|---|-------|--------|-----------|
-| 1 | Feet ~15 cm apart | `ankle_gap / shoulder_width` ratio | 0.22 – 0.55 |
-| 2 | Arms fully stretched | Elbow angle (both sides) | > 160° |
-| 3 | Arms close to ears | `wrist-ear offset / shoulder_width` | < 0.30 |
-| 4 | Palms joined | `wrist_gap / shoulder_width` | < 0.20 |
-| 5 | Hold for 4 breaths | Timer (4 breaths × 4 sec = 16 sec) | ≥ 16 seconds |
-| 6 | Rest for 2 breaths | Wrists at/below hip level for 8 sec | ≥ 8 seconds |
+| # | Check | Method |
+|---|-------|--------|
+| 1 | Left arm match | Shoulder angle + wrist height vs reference |
+| 2 | Right arm match | Shoulder angle + wrist height vs reference |
+| 3 | Elbows match | Left/right elbow angles vs reference |
+| 4 | Hands aligned | Wrist-height asymmetry upper bound |
+| 5 | Torso centered | Trunk lean vs reference |
+| 6 | Body visible | Live and reference skeleton visibility |
 
-All spatial checks use **shoulder width as the normalization reference**, making them invariant to camera distance and body size.
+The static Urdhva Hastasana rules still live in `correction.py`, but the default `main.py` flow uses the reference-video checks above.
 
 ---
 
 ## Project Structure
 
 ```
-├── main.py           # Entry point — state machine & orchestration
+├── main.py           # Entry point — webcam/reference-video app loop
+├── desktop_app.py    # Cross-platform Tk desktop app with buttons
 ├── pose_engine.py    # MediaPipe pose detection & webcam management
+├── reference_video.py # Reference video reader, pose extraction & PiP overlay
 ├── correction.py     # Rule-based pose correction logic (6 checks)
+├── template_correction.py # Template/reference feature comparison
+├── pose_features.py  # Shared pose feature extraction
 ├── utils.py          # Angle calculation, drawing helpers, FPS counter
 ├── config.py         # All thresholds with justification comments
+├── videos/           # Reference demonstration videos
+├── models/           # MediaPipe .task model files
 ├── requirements.txt  # Python dependencies
+├── requirements-build.txt # Packaging dependencies
+├── YogaPoseCoach.spec # PyInstaller macOS app bundle config
+├── YogaPoseCoachWindows.spec # PyInstaller Windows config
+├── build_mac_app.sh  # Builds dist/Yoga Pose Coach.app
+├── create_dmg.sh     # Builds a shareable macOS .dmg
+├── build_windows_app.ps1 # Builds the Windows app and ZIP
+├── build_windows_app.bat # Windows double-click wrapper
+├── .github/workflows/build-windows.yml # Cloud Windows build
 └── README.md
 ```
 
@@ -82,6 +99,83 @@ python3.11 -m pip install -r requirements.txt
 python3.11 main.py
 ```
 
+Run the desktop app with buttons:
+
+```bash
+python3.11 desktop_app.py
+```
+
+Run with a custom reference video:
+
+```bash
+python3.11 main.py --reference-video path/to/demo.mp4
+```
+
+### Build macOS App
+
+```bash
+./build_mac_app.sh
+```
+
+The packaged app will be created at:
+
+```bash
+dist/Yoga Pose Coach.app
+```
+
+Create a DMG for sharing:
+
+```bash
+./create_dmg.sh
+```
+
+The DMG will be created at:
+
+```bash
+dist/YogaPoseCoach.dmg
+```
+
+If your Python 3.11 executable has another path:
+
+```bash
+PYTHON_BIN=/path/to/python3.11 ./build_mac_app.sh
+```
+
+### Build Windows App
+
+PyInstaller must build the Windows executable on Windows. From PowerShell:
+
+```powershell
+.\build_windows_app.ps1
+```
+
+You can also run:
+
+```bat
+build_windows_app.bat
+```
+
+The executable and shareable ZIP will be created at:
+
+```text
+dist\YogaPoseCoach\YogaPoseCoach.exe
+dist\YogaPoseCoach-Windows.zip
+```
+
+Send `YogaPoseCoach-Windows.zip` to the other device. The recipient should
+extract the entire folder before opening `YogaPoseCoach.exe`.
+
+### Build Windows App on GitHub
+
+If you only have a Mac, push the complete project to GitHub, including the
+`models/` and `videos/` files. Then open:
+
+```text
+GitHub repository -> Actions -> Build Windows App -> Run workflow
+```
+
+When the workflow finishes, download the `YogaPoseCoach-Windows` artifact.
+
 > **Mac users:** Grant camera permission to Terminal via  
 > System Settings → Privacy & Security → Camera → Terminal ✓
 
@@ -92,7 +186,24 @@ python3.11 main.py
 | Key | Action |
 |-----|--------|
 | `Q` | Quit |
-| `R` | Reset rep counter and timers |
+| `Space` | Pause/play reference video |
+| `R` | Restart reference video |
+
+The desktop app also provides buttons for Start, Stop, Pause Reference, Restart Reference, Choose Video, and Quit.
+
+---
+
+## Reference-Guided Mode
+
+The default app flow is:
+
+```
+Reference video frame → reference skeleton/features
+Webcam frame → user skeleton/features
+Feature comparison → match score + primary correction
+```
+
+The comparison uses normalized pose features such as shoulder angle, elbow angle, wrist height, hand-height asymmetry, trunk lean, and landmark visibility. This keeps the feedback less sensitive to body size and camera distance than raw pixel matching.
 
 ---
 
@@ -107,8 +218,9 @@ MediaPipe was selected over MoveNet, OpenPose, and Detectron2 for:
 
 ### Pose Detection Pipeline
 ```
-Webcam frame → BGR→RGB → MediaPipe Pose → 33 landmarks (x, y, z, visibility)
-    → Correction Engine → 6 rule checks → Feedback overlay → Display
+Reference frame → MediaPipe Pose → reference features
+Webcam frame → MediaPipe Pose → user features
+    → Feature comparison → score + feedback overlay → Display
 ```
 
 ### Angle Calculation

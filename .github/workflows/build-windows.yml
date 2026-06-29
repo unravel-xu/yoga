@@ -1,0 +1,44 @@
+name: Build Windows App
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt -r requirements-build.txt
+
+      - name: Build Windows app
+        run: python -m PyInstaller --clean --noconfirm YogaPoseCoachWindows.spec
+
+      - name: Create shareable ZIP
+        shell: pwsh
+        run: |
+          Compress-Archive `
+            -Path "dist\YogaPoseCoach\*" `
+            -DestinationPath "dist\YogaPoseCoach-Windows.zip" `
+            -CompressionLevel Optimal
+
+      - name: Upload Windows package
+        uses: actions/upload-artifact@v4
+        with:
+          name: YogaPoseCoach-Windows
+          path: dist/YogaPoseCoach-Windows.zip
+          if-no-files-found: error

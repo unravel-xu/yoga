@@ -79,7 +79,16 @@ def draw_rounded_rect(img, x, y, w, h, r, color, alpha=0.6):
     cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0, img)
 
 
-def draw_status_panel(frame, checks, hold_timer, rest_timer, phase, fps):
+def draw_status_panel(
+    frame,
+    checks,
+    hold_timer,
+    rest_timer,
+    phase,
+    fps,
+    labels=None,
+    score=None,
+):
     """
     Draws the right-side status panel showing all 6 checks,
     breath hold progress bar, and FPS.
@@ -92,17 +101,19 @@ def draw_status_panel(frame, checks, hold_timer, rest_timer, phase, fps):
     draw_rounded_rect(frame, panel_x - 5, 10, panel_w, h - 20, 8, (30, 30, 30), alpha=0.55)
 
     # Title
-    cv2.putText(frame, "POSE CHECKS", (panel_x + 55, 40),
+    title = "POSE MATCH" if labels else "POSE CHECKS"
+    cv2.putText(frame, title, (panel_x + 55, 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, COLOR_YELLOW, 2)
 
-    labels = [
-        "1. Feet 15cm apart",
-        "2. Arms stretched",
-        "3. Arms near ears",
-        "4. Palms joined",
-        "5. Hold 4 breaths",
-        "6. Rest phase",
-    ]
+    if labels is None:
+        labels = [
+            "1. Feet 15cm apart",
+            "2. Arms stretched",
+            "3. Arms near ears",
+            "4. Palms joined",
+            "5. Hold 4 breaths",
+            "6. Rest phase",
+        ]
 
     for i, (label, ok) in enumerate(zip(labels, checks)):
         y = 70 + i * 38
@@ -110,6 +121,42 @@ def draw_status_panel(frame, checks, hold_timer, rest_timer, phase, fps):
         color = COLOR_GREEN if ok else COLOR_RED
         cv2.putText(frame, f"{icon} {label}", (panel_x, y),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
+
+    if score is not None:
+        score_y = 310
+        clamped_score = max(0.0, min(float(score), 100.0))
+        score_color = (
+            COLOR_GREEN
+            if clamped_score >= 85
+            else COLOR_YELLOW
+            if clamped_score >= 65
+            else COLOR_RED
+        )
+
+        cv2.putText(frame, "Match Score:", (panel_x, score_y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.48, COLOR_WHITE, 1)
+        bar_fill = int((clamped_score / 100.0) * (panel_w - 20))
+        cv2.rectangle(frame, (panel_x, score_y + 8),
+                      (panel_x + panel_w - 20, score_y + 24),
+                      (80, 80, 80), -1)
+        cv2.rectangle(frame, (panel_x, score_y + 8),
+                      (panel_x + bar_fill, score_y + 24),
+                      score_color, -1)
+        cv2.putText(frame, f"{clamped_score:.0f}/100",
+                    (panel_x, score_y + 44),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, score_color, 2)
+
+        phase_y = score_y + 78
+        cv2.putText(frame, f"Mode: {phase}", (panel_x, phase_y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.55, COLOR_ORANGE, 2)
+        cv2.putText(frame, "Space: pause ref", (panel_x, phase_y + 34),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, COLOR_WHITE, 1)
+        cv2.putText(frame, "R: restart ref | Q: quit",
+                    (panel_x, phase_y + 56),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, COLOR_WHITE, 1)
+        cv2.putText(frame, f"FPS: {fps:.1f}", (panel_x, h - 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, (180, 180, 180), 1)
+        return
 
     # Hold progress bar
     bar_y = 310
