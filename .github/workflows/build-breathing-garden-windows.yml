@@ -6,8 +6,8 @@ on:
       runner:
         description: Windows image (use 2022 when latest is queued)
         type: choice
-        options: [windows-latest, windows-2022]
-        default: windows-latest
+        options: [windows-2022, windows-latest]
+        default: windows-2022
   push:
     branches: ["codex/breathing-garden-windows"]
     paths:
@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   windows:
-    runs-on: ${{ inputs.runner || 'windows-latest' }}
+    runs-on: ${{ inputs.runner || 'windows-2022' }}
     timeout-minutes: 35
     env:
       PYTHONUTF8: "1"
@@ -47,11 +47,22 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m unittest breathing_garden_app.test_app breathing_garden_app.test_platform interactive_app.test_permissions -v
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Check fonts using the native Windows display backend
+        timeout-minutes: 3
+        env:
+          QT_QPA_PLATFORM: windows
+        run: |
+          python -m breathing_garden_app.resources
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -c "from PySide6.QtWidgets import QApplication; from breathing_garden_app.resources import load_ui_font; app=QApplication([]); print(load_ui_font(app), flush=True)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Build portable EXE
         run: python breathing_garden_app/build_windows.py
       - name: Verify extracted release under a Unicode path
         shell: pwsh
         run: |
+          # Exercise the same native font/display backend as the end-user app.
+          $env:QT_QPA_PLATFORM = 'windows'
           $testRoot = Join-Path $env:RUNNER_TEMP "花园测试 用户"
           New-Item -ItemType Directory -Force $testRoot | Out-Null
           Expand-Archive dist/BreathingGarden-Windows-x64.zip $testRoot
@@ -75,6 +86,12 @@ jobs:
           Copy-Item $qa dist/Windows-QA -Recurse
           Copy-Item $models dist/Windows-QA/models.json
           Get-Content dist/Windows-QA/app-test.json
+      - name: Dump startup diagnostics on failure
+        if: failure()
+        shell: pwsh
+        run: |
+          $logs = Join-Path $env:LOCALAPPDATA 'BreathingGarden/Logs'
+          if (Test-Path $logs) { Get-ChildItem $logs -File | ForEach-Object { Write-Output $_.Name; Get-Content $_.FullName -Tail 100 } }
       - name: Upload tested Windows package
         uses: actions/upload-artifact@v4
         with:

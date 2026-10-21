@@ -50,6 +50,7 @@ Remove-Item Env:QT_QPA_PLATFORM -ErrorAction SilentlyContinue
 GitHub Actions：`.github/workflows/build-breathing-garden-windows.yml` 在真实 Windows runner 打包，
 运行纯 Python / UI 测试，并静默安装到中文路径，验证离线模型实际推理、窗口与全屏模拟互动。
 CI 没有实体摄像头，因此不代表真实摄像头、实际显示器色彩或60FPS已通过验收。
+界面与字体检查使用原生 Windows 图形后端；仅无窗口单元测试使用 offscreen。
 
 ## Mac 版本
 

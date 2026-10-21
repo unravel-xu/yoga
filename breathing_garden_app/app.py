@@ -1,5 +1,6 @@
 """Standalone garden window; reuse the tested capture/permission lifecycle."""
 import argparse
+import faulthandler
 import json
 import logging
 from logging.handlers import RotatingFileHandler
@@ -242,16 +243,32 @@ def main():
     log_dir = app_directory("logs")
     log_dir.mkdir(parents=True,exist_ok=True)
     logging.basicConfig(level=logging.INFO,
-        handlers=[RotatingFileHandler(log_dir/"app.log",maxBytes=1_000_000,backupCount=2)],
+        handlers=[RotatingFileHandler(log_dir/"app.log",maxBytes=1_000_000,backupCount=2,encoding="utf-8")],
         format="%(asctime)s %(levelname)s %(message)s")
     if args.verify_models:
         verify_models(args.verify_models)
         return 0
+    trace_file = None
+    if args.smoke_test:
+        trace_file = (log_dir/"smoke-trace.txt").open("w",encoding="utf-8")
+        faulthandler.dump_traceback_later(20,repeat=True,file=trace_file)
+    logging.info("Starting Qt application")
     app = QApplication(sys.argv[:1])
-    font_report = load_ui_font(app)
+    logging.info("Registering bundled UI font")
+    try:
+        font_report = load_ui_font(app)
+    except Exception:
+        logging.exception("UI font initialization failed")
+        if args.smoke_test:
+            # PyInstaller's windowed exception dialog would block CI forever.
+            faulthandler.cancel_dump_traceback_later()
+            return 2
+        raise
+    logging.info("UI font ready: %s",font_report)
     app.setApplicationName("呼吸的花园")
     app.setOrganizationName("BreathingGarden")
     window = GardenWindow(auto_request_permission=not bool(args.smoke_test))
+    logging.info("Window initialized")
     window.show()
     if args.smoke_test:
         folder = Path(args.smoke_test)
@@ -264,6 +281,7 @@ def main():
             for i in range(30*10):
                 window.canvas.world.advance(1/30,test_tracking(i/30))
         def capture():
+            logging.info("Smoke screenshot capture")
             window.grab().save(str(folder/"app-preview.png"))
             window.toggle_fullscreen()
             QTimer.singleShot(300,finish)
@@ -280,9 +298,14 @@ def main():
                       "devices":[d[1] for d in window.devices]}
             (folder/"app-test.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
             window.close()
+            logging.info("Smoke test complete")
         QTimer.singleShot(100,begin)
         QTimer.singleShot(1800,capture)
-    return app.exec()
+    result = app.exec()
+    if trace_file:
+        faulthandler.cancel_dump_traceback_later()
+        trace_file.close()
+    return result
 
 
 if __name__ == "__main__":
