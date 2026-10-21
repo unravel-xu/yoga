@@ -273,6 +273,7 @@ def main():
                       "camera_started":window.worker is not None,
                       "fullscreen_chrome_hidden":hidden,"fullscreen_exited":not window.isFullScreen(),
                       "render_fps":window.canvas.render_fps,"paint_ms":window.canvas.paint_ms,
+                      "device_enumeration_error":window.device_enumeration_error,
                       "devices":[d[1] for d in window.devices]}
             (folder/"app-test.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
             window.close()

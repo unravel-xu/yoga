@@ -10,6 +10,15 @@ from breathing_garden_app.test_app import WindowTests as _WindowFixture
 
 
 class NativePlatformTests(unittest.TestCase):
+    @unittest.skipUnless(sys.platform == "win32", "Requires native Windows DirectShow")
+    def test_real_windows_device_enumeration_without_capture(self):
+        devices = engine.camera_devices()
+        self.assertIsInstance(devices,list)
+        for index,label,uid in devices:
+            self.assertIsInstance(index,int)
+            self.assertIsInstance(label,str)
+            self.assertTrue(uid)
+
     def test_windows_permission_is_not_falsely_authorized(self):
         callback = Mock()
         with patch.object(sys,"platform","win32"):

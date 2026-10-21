@@ -61,7 +61,7 @@ jobs:
           if (-not $p.WaitForExit(90000)) { $p.Kill(); throw "GUI test timed out" }
           if ($p.ExitCode -ne 0) { throw "GUI process failed: $($p.ExitCode)" }
           $report = Get-Content (Join-Path $qa "app-test.json") -Raw | ConvertFrom-Json
-          if (-not $report.ok -or $report.camera_started -or -not $report.fullscreen_chrome_hidden -or -not $report.fullscreen_exited -or $report.world.segments -le 0) { throw "GUI assertion failed" }
+          if (-not $report.ok -or $report.camera_started -or $report.device_enumeration_error -or -not $report.fullscreen_chrome_hidden -or -not $report.fullscreen_exited -or $report.world.segments -le 0) { throw "GUI assertion failed: $($report | ConvertTo-Json -Depth 5)" }
           Copy-Item $qa dist/Windows-QA -Recurse
           Copy-Item $models dist/Windows-QA/models.json
           Get-Content dist/Windows-QA/app-test.json

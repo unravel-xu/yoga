@@ -298,10 +298,12 @@ class Window(QMainWindow):
             return
         wanted = self.camera.currentData() or self.settings.value("camera_id","")
         self.camera.clear()
+        self.device_enumeration_error = None
         try:
             self.devices = camera_devices()
-        except Exception:
+        except Exception as error:
             LOG.exception("Camera enumeration failed")
+            self.device_enumeration_error = str(error)
             self.devices = []
             self.status.setText("设备列表读取失败，请重新打开应用。")
         for index,label,uid in self.devices:
