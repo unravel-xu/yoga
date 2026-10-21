@@ -2,6 +2,12 @@ name: Build Breathing Garden Windows
 
 on:
   workflow_dispatch:
+    inputs:
+      runner:
+        description: Windows image (use 2022 when latest is queued)
+        type: choice
+        options: [windows-latest, windows-2022]
+        default: windows-latest
   push:
     branches: ["codex/breathing-garden-windows"]
     paths:
@@ -13,9 +19,13 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: breathing-garden-windows-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   windows:
-    runs-on: windows-latest
+    runs-on: ${{ inputs.runner || 'windows-latest' }}
     timeout-minutes: 35
     env:
       PYTHONUTF8: "1"
