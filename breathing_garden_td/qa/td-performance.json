@@ -1,0 +1,39 @@
+{
+  "td_build": "2025.33070",
+  "render_resolution": [
+    1280,
+    720
+  ],
+  "quality": "NORMAL",
+  "measured_seconds": 40.013071458088234,
+  "frames": 2401,
+  "average_fps": 60.005391051145175,
+  "p95_frame_ms": 23.498541908338666,
+  "max_frame_ms": 39.52062502503395,
+  "sop_cook_samples": 1200,
+  "mean_sop_cook_ms": 4.793119612932205,
+  "p95_sop_cook_ms": 6.744667053222656,
+  "max_segments_observed": 1700,
+  "metrics": {
+    "seconds": 68.667,
+    "plants": 3,
+    "segments": 1478,
+    "particles": 190,
+    "growth_tips": 3,
+    "flowers": 7,
+    "events": {
+      "flowers": 14,
+      "dissolves": 3,
+      "seeds": 38,
+      "jumps": 0
+    },
+    "dropped_seconds": 0.0,
+    "fps": 60.0,
+    "sop_python_ms": 5.953,
+    "sop_cook_ms": 6.0,
+    "mode": "TEST_MODE",
+    "quality": "NORMAL",
+    "auto_low": false
+  },
+  "scope": "One local demo run. Not a guarantee for other computers or external tracking."
+}

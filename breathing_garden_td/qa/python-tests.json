@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "tests": 21,
+  "seconds": 8.515678208088502,
+  "python": "3.11.15 (main, Jun 11 2026, 15:14:57) [Clang 20.1.8 ]",
+  "failures": [],
+  "errors": [],
+  "scope": "Python engine and static builder checks; TD tests are reported separately."
+}

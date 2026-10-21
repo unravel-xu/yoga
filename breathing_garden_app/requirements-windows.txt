@@ -1,0 +1,13 @@
+# CPython 3.11 / Windows x64. No macOS-only PyObjC dependencies.
+mediapipe==0.10.21
+opencv-contrib-python==4.11.0.86
+numpy==1.26.4
+jax==0.4.38
+jaxlib==0.4.38
+scipy==1.13.1
+matplotlib==3.9.4
+PySide6-Essentials==6.10.2
+shiboken6==6.10.2
+pygrabber==0.2
+comtypes==1.4.13
+pyinstaller==6.21.0

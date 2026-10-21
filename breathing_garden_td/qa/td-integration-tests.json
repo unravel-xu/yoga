@@ -1,0 +1,104 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "check": "paste-and-run executes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "idempotent names",
+      "ok": true,
+      "detail": "['_qa_paste_builder', '_qa_user_marker', 'bloom1', 'build_log', 'cam1', 'diagnostics', 'frame_execute', 'garden_controls', 'garden_engine', 'garden_runtime', 'geo_growth', 'input_defaults', 'input_live', 'input_test', 'line_growth', 'null_tracking', 'out1', 'render1', 'reset_controls', 'stage3_adapter', 'stage3_adapter_callbacks', 'switch_tracking', 'validate_garden']"
+    },
+    {
+      "check": "user node preserved",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "outside garden untouched",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "LIVE seven-channel routing",
+      "ok": true,
+      "detail": "{'tip_u': 0.27000001072883606, 'tip_v': 0.2199999988079071, 'tracked': 1.0, 'draw': 1.0, 'pinch': 0.0, 'mouth': 0.30000001192092896, 'smile': 0.6000000238418579}"
+    },
+    {
+      "check": "LIVE seeds plants",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Y normalized and flipped",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "face values flow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "LOW quality",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "auto LOW preserves world",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "optional Stage3 adapter no-model fallback",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "adapter errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "TD demo dwell flower",
+      "ok": true,
+      "detail": "{'flowers': 4, 'dissolves': 1, 'seeds': 13, 'jumps': 0}"
+    },
+    {
+      "check": "TD demo pinch release",
+      "ok": true,
+      "detail": "{'flowers': 4, 'dissolves': 1, 'seeds': 13, 'jumps': 0}"
+    },
+    {
+      "check": "GPU Cd color is not white",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "GPU alpha linearity",
+      "ok": true,
+      "detail": "0.2499800652681522"
+    },
+    {
+      "check": "GPU alpha zero invisible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "network validation",
+      "ok": true,
+      "detail": "{'ok': True, 'checks': [{'check': 'node:input_test', 'ok': True, 'detail': ''}, {'check': 'node:input_live', 'ok': True, 'detail': ''}, {'check': 'node:switch_tracking', 'ok': True, 'detail': ''}, {'check': 'node:null_tracking', 'ok': True, 'detail': ''}, {'check': 'node:garden_engine', 'ok': True, 'detail': ''}, {'check': 'node:garden_runtime', 'ok': True, 'detail': ''}, {'check': 'node:garden_controls', 'ok': True, 'detail': ''}, {'check': 'node:frame_execute', 'ok': True, 'detail': ''}, {'check': 'node:geo_growth/branches_sop', 'ok': True, 'detail': ''}, {'check': 'node:geo_growth/branches_sop_callbacks', 'ok': True, 'detail': ''}, {'check': 'node:line_growth', 'ok': True, 'detail': ''}, {'check': 'node:cam1', 'ok': True, 'detail': ''}, {'check': 'node:render1', 'ok': True, 'detail': ''}, {'check': 'node:bloom1', 'ok': True, 'detail': ''}, {'check': 'node:out1', 'ok': True, 'detail': ''}, {'check': 'node:reset_controls', 'ok': True, 'detail': ''}, {'check': 'tracking channels', 'ok': True, 'detail': \"['draw', 'mouth', 'pinch', 'smile', 'tip_u', 'tip_v', 'tracked']\"}, {'check': 'material', 'ok': True, 'detail': ''}, {'check': 'Cd RGBA', 'ok': True, 'detail': ''}, {'check': 'Line MAT uses SOP color', 'ok': True, 'detail': 'SOP Cd -> GPU Color'}, {'check': 'straight point RGB', 'ok': True, 'detail': ''}, {'check': 'no shader alpha multiplication', 'ok': True, 'detail': ''}, {'check': 'straight alpha blend', 'ok': True, 'detail': ''}, {'check': 'alpha blending', 'ok': True, 'detail': ''}, {'check': 'no depth writing', 'ok': True, 'detail': ''}, {'check': 'camera', 'ok': True, 'detail': ''}, {'check': 'orthographic', 'ok': True, 'detail': ''}, {'check': 'ortho width', 'ok': True, 'detail': ''}, {'check': 'geometry flags', 'ok': True, 'detail': ''}, {'check': 'SOP output', 'ok': True, 'detail': '1812 points, 832 primitives'}, {'check': 'resolution', 'ok': True, 'detail': '(1280, 720)'}, {'check': 'render chain', 'ok': True, 'detail': ''}, {'check': 'frame callback', 'ok': True, 'detail': ''}], 'metrics': {'seconds': 1.033, 'plants': 1, 'segments': 16, 'particles': 190, 'growth_tips': 1, 'flowers': 1, 'events': {'flowers': 1, 'dissolves': 0, 'seeds': 1, 'jumps': 0}, 'dropped_seconds': 0.0, 'fps': 39.6, 'sop_python_ms': 0.769, 'sop_cook_ms': 1.249, 'mode': 'LIVE_MODE', 'quality': 'NORMAL', 'auto_low': False}, 'td_build': '2025.33070'}"
+    },
+    {
+      "check": "Reset pulse callback (3 frames)",
+      "ok": true,
+      "detail": {
+        "serial": 1,
+        "seed": 31
+      }
+    }
+  ],
+  "build": "2025.33070"
+}

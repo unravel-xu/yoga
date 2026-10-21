@@ -1,0 +1,16 @@
+mediapipe==0.10.21
+opencv-contrib-python==4.11.0.86
+numpy==1.26.4
+jax==0.4.38
+jaxlib==0.4.38
+scipy==1.13.1
+matplotlib==3.9.4
+PySide6-Essentials==6.10.2
+shiboken6==6.10.2
+pyobjc-core==12.2.2
+pyobjc-framework-Cocoa==12.2.2
+pyobjc-framework-AVFoundation==12.1
+pyobjc-framework-CoreMedia==12.2.2
+pyobjc-framework-CoreAudio==12.2.2
+pyobjc-framework-Quartz==12.2.2
+pyinstaller==6.21.0

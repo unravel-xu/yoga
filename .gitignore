@@ -8,3 +8,29 @@ venv/
 build/
 dist/
 *.dmg
+
+# TouchDesigner build/cache artifacts. The generated .toe and source scripts
+# remain tracked; the 180 MB third-party MediaPipe TOX is reproducible.
+touchdesigner/.build/
+touchdesigner/.build_stage2/
+touchdesigner/.build_stage3/
+touchdesigner/vendor/
+touchdesigner/*.zip
+touchdesigner/stage1_runtime_status.json
+touchdesigner/stage2_runtime_status.json
+touchdesigner/stage3_runtime_status.json
+
+# Standalone Mac interaction app: reproducible runtime/model resources.
+interactive_app/.venv/
+interactive_app/models/*.task
+interactive_app/assets/*.icns
+interactive_app/assets/licenses/
+
+# Breathing Garden: temporary integration launchers and expansion caches.
+breathing_garden_td/qa/bootstrap/
+breathing_garden_td/qa/development/
+breathing_garden_td/qa/reopen/
+breathing_garden_td/qa/command*.json
+breathing_garden_td/Backup/
+breathing_garden_app/assets/*.icns
+breathing_garden_app/assets/*.ico

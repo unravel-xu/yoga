@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "checks": {
+    "garden_engine.py": true,
+    "garden_runtime.py": true,
+    "branches_sop_callbacks.py": true,
+    "frame_execute_callbacks.py": true,
+    "reset_controls.py": true,
+    "validate_garden_td.py": true,
+    "stage3_tracking_adapter.py": true
+  }
+}

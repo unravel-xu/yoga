@@ -1,0 +1,192 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "check": "node:input_test",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:input_live",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:switch_tracking",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:null_tracking",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:garden_engine",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:garden_runtime",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:garden_controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:frame_execute",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:geo_growth/branches_sop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:geo_growth/branches_sop_callbacks",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:line_growth",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:cam1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:render1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:bloom1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:out1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "node:reset_controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "tracking channels",
+      "ok": true,
+      "detail": "['draw', 'mouth', 'pinch', 'smile', 'tip_u', 'tip_v', 'tracked']"
+    },
+    {
+      "check": "material",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Cd RGBA",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "Line MAT uses SOP color",
+      "ok": true,
+      "detail": "SOP Cd -> GPU Color"
+    },
+    {
+      "check": "straight point RGB",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "no shader alpha multiplication",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "straight alpha blend",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "alpha blending",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "no depth writing",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "camera",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "orthographic",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ortho width",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "geometry flags",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "SOP output",
+      "ok": true,
+      "detail": "4392 points, 2011 primitives"
+    },
+    {
+      "check": "resolution",
+      "ok": true,
+      "detail": "(1280, 720)"
+    },
+    {
+      "check": "render chain",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "frame callback",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "metrics": {
+    "seconds": 134.8,
+    "plants": 4,
+    "segments": 1711,
+    "particles": 252,
+    "growth_tips": 1,
+    "flowers": 5,
+    "events": {
+      "flowers": 27,
+      "dissolves": 6,
+      "seeds": 72,
+      "jumps": 0
+    },
+    "dropped_seconds": 1.6171807921491563,
+    "fps": 60.0,
+    "sop_python_ms": 6.92,
+    "sop_cook_ms": 6.587,
+    "mode": "TEST_MODE",
+    "quality": "NORMAL",
+    "auto_low": false
+  },
+  "td_build": "2025.33070"
+}
