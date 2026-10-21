@@ -5,6 +5,7 @@
 支持 Windows 10/11 **x64**，建议 Windows 11；此包不是 Windows ARM64 原生构建。
 独立运行，不需要安装 Python、TouchDesigner，也不需要联网下载识别模型。
 保留 1.1 的增强光色、30%–220%亮度调节和可隐藏的互动指引。
+内置 Noto Sans CJK SC 开源中文字体，不依赖 Windows 预装中文语言包；字体与许可证均离线包含。
 
 1. 运行 `BreathingGarden-Windows-x64-Setup.exe` 安装到当前用户目录，无需管理员权限。
    或把 `BreathingGarden-Windows-x64.zip` **完整解压**，运行文件夹中的 `BreathingGarden.exe`。
@@ -42,6 +43,9 @@ $env:QT_QPA_PLATFORM = 'offscreen'
 Remove-Item Env:QT_QPA_PLATFORM -ErrorAction SilentlyContinue
 .venv\Scripts\python -m breathing_garden_app.launch
 ```
+
+从源码启动前可执行 `.venv\Scripts\python -m breathing_garden_app.resources` 下载并校验固定版本中文字体；
+构建脚本会自动处理此步骤。没有该资源时源码启动使用系统字体回退，成品包不需要下载。
 
 GitHub Actions：`.github/workflows/build-breathing-garden-windows.yml` 在真实 Windows runner 打包，
 运行纯 Python / UI 测试，并静默安装到中文路径，验证离线模型实际推理、窗口与全屏模拟互动。

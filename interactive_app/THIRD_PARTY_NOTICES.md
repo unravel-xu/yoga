@@ -16,6 +16,9 @@ Light Interaction bundles these open-source components and offline models:
 - Windows only: pygrabber (MIT), comtypes (MIT), DirectShow device enumeration.
   https://github.com/andreaschiavinato/python_grabber
   https://github.com/enthought/comtypes
+- Breathing Garden UI: Noto Sans CJK SC Regular, SIL Open Font License 1.1.
+  Pinned release Sans2.004: https://github.com/notofonts/noto-cjk/tree/Sans2.004
+  The unmodified font and complete OFL text accompany the application.
 - Python: PSF license. https://www.python.org/psf/license/
 - PyInstaller: GPL-2.0 with the bootloader exception permitting bundled apps.
   https://pyinstaller.org/en/stable/license.html

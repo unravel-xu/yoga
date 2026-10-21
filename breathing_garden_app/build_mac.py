@@ -9,6 +9,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from interactive_app.build_mac import prepare_models,prepare_licenses
+from breathing_garden_app.resources import prepare_fonts
 
 
 def icon():
@@ -63,6 +64,7 @@ def main():
         raise SystemExit("Run on an Apple Silicon Mac with the existing pinned interactive_app venv.")
     prepare_models()
     prepare_licenses()
+    prepare_fonts()
     icon()
     subprocess.run([sys.executable,"-m","PyInstaller","--noconfirm",
                     str(ROOT/"breathing_garden_app/BreathingGarden.spec")],cwd=ROOT,check=True)

@@ -100,7 +100,7 @@ class CameraWorker(QThread):
 
 
 STYLE = """
-QMainWindow, QWidget { background: #0c111c; color: #dbe6f5; font-family: 'Helvetica Neue'; font-size: 13px; }
+QMainWindow, QWidget { background: #0c111c; color: #dbe6f5; font-family: 'Noto Sans CJK SC', 'Segoe UI', 'Helvetica Neue', sans-serif; font-size: 13px; }
 QWidget#sidebar { background: #121a28; border-right: 1px solid #253044; }
 QLabel#eyebrow { color: #6e92bf; font-size: 10px; letter-spacing: 2px; }
 QLabel#title { color: #f1f6ff; font-size: 25px; font-weight: 600; }

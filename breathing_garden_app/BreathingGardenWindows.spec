@@ -7,6 +7,8 @@ datas = [(str(root/"interactive_app/models"),"interactive_app/models")]
 datas += collect_data_files("mediapipe")
 datas += [(str(root/"interactive_app/THIRD_PARTY_NOTICES.md"),"interactive_app")]
 datas += [(str(root/"interactive_app/assets/licenses"),"licenses")]
+datas += [(str(root/"breathing_garden_app/assets/NotoSansCJKsc-Regular.otf"),"breathing_garden_app/assets"),
+          (str(root/"breathing_garden_app/assets/NotoSansCJK-OFL.txt"),"licenses")]
 a = Analysis([str(root/"breathing_garden_app/launch.py")],pathex=[str(root)],
     binaries=[],datas=datas,
     hiddenimports=collect_submodules("mediapipe",filter=lambda name:

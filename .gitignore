@@ -34,3 +34,5 @@ breathing_garden_td/qa/command*.json
 breathing_garden_td/Backup/
 breathing_garden_app/assets/*.icns
 breathing_garden_app/assets/*.ico
+breathing_garden_app/assets/*.otf
+breathing_garden_app/assets/NotoSansCJK-OFL.txt

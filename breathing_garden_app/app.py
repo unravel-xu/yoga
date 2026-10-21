@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (QApplication, QLabel, QPushButton, QComboBox,
 from interactive_app.app import Window, verify_models
 from interactive_app.platform_support import app_directory
 from breathing_garden_app.canvas import GardenCanvas
+from breathing_garden_app.resources import load_ui_font
 
 
 class GardenWindow(Window):
@@ -247,6 +248,7 @@ def main():
         verify_models(args.verify_models)
         return 0
     app = QApplication(sys.argv[:1])
+    font_report = load_ui_font(app)
     app.setApplicationName("呼吸的花园")
     app.setOrganizationName("BreathingGarden")
     window = GardenWindow(auto_request_permission=not bool(args.smoke_test))
@@ -274,6 +276,7 @@ def main():
                       "fullscreen_chrome_hidden":hidden,"fullscreen_exited":not window.isFullScreen(),
                       "render_fps":window.canvas.render_fps,"paint_ms":window.canvas.paint_ms,
                       "device_enumeration_error":window.device_enumeration_error,
+                      "font":font_report,
                       "devices":[d[1] for d in window.devices]}
             (folder/"app-test.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
             window.close()

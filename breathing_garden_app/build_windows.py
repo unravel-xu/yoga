@@ -14,9 +14,11 @@ def main():
         raise SystemExit("Windows build requires Windows x64 / Python 3.11. Use the GitHub Actions workflow on macOS.")
     sys.path.insert(0,str(ROOT))
     from interactive_app.build_mac import prepare_models, prepare_licenses
+    from breathing_garden_app.resources import prepare_fonts
     from PIL import Image, ImageDraw
     prepare_models()
     prepare_licenses()
+    prepare_fonts()
     assets = ROOT/"breathing_garden_app/assets"
     assets.mkdir(exist_ok=True)
     icon = Image.new("RGBA",(256,256),(2,6,11,255))
